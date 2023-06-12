@@ -1,5 +1,7 @@
 target
 data
+env
+*.proof
 *.ipynb_checkpoints
 *.sol
 *.pf

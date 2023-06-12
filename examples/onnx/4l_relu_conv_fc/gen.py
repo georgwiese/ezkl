@@ -1,5 +1,7 @@
 from torch import nn
+
 from ezkl import export
+
 
 class MyModel(nn.Module):
     def __init__(self):
@@ -14,23 +16,29 @@ class MyModel(nn.Module):
         self.d2 = nn.Linear(48, 10)
 
     def forward(self, x):
-        # 32x1x28x28 => 32x32x26x26
+        print("== Forward pass")
+        print("Input shape:", x.shape)
         x = self.conv1(x)
         x = self.relu(x)
+        print("After conv1:", x.shape)
         x = self.conv2(x)
         x = self.relu(x)
 
-        # flatten => 32 x (32*26*26)
-        x = x.flatten(start_dim = 1)
-    #    x = x.flatten()
+        print("After conv2:", x.shape)
 
-        # 32 x (32*26*26) => 32x128
+        x = x.flatten(start_dim = 1)
+
+        print("After flatten:", x.shape)
+
         x = self.d1(x)
         x = self.relu(x)
 
-        # logits => 32x10
+        print("After d1:", x.shape)
+
+
         logits = self.d2(x)
-       
+
+        print("After d2:", logits.shape)       
         return logits
 
 circuit = MyModel()
